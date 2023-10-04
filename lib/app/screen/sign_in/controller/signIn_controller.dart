@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:voco_case/app/constant/string_constant.dart';
 import 'package:voco_case/app/data_provider/data_core/freezed/error/custom_error.dart';
 import 'package:voco_case/app/data_provider/data_core/freezed/sw_error.dart';
 import 'package:voco_case/app/data_provider/data_core/layers/network_executer.dart';
@@ -36,7 +37,7 @@ class SignInController extends ChangeNotifier {
     result.when(success: ((data) async {
       await CacheManager.instance.saveToken(data.token.toString());
       _token = data.token;
-      ToastManager.showSuccess("Başarılı");
+      ToastManager.showSuccess(signInSuccessMessage);
       resultState = Completed(data);
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
@@ -45,7 +46,7 @@ class SignInController extends ChangeNotifier {
           (Route<dynamic> route) => false);
     }), failure: (error) {
       resultState = Failed(SwError(errorMessage: error.localizedErrorMessage));
-      ToastManager.showError(error.handleError.error ?? '');
+      ToastManager.showError(error.handleError.error ?? '-');
     });
     notifyListeners();
   }
@@ -60,7 +61,7 @@ class SignInController extends ChangeNotifier {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     final regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
-      return "Geçerli bir e mail giriniz";
+      return invalidEmail;
     } else {
       return null;
     }
@@ -68,7 +69,7 @@ class SignInController extends ChangeNotifier {
 
   String? passwordValidation({String? value}) {
     if (value?.isEmpty == true) {
-      return 'Bu Alan Boş Geçilemez';
+      return emptyMessage;
     } else {
       return null;
     }

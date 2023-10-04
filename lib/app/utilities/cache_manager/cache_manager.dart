@@ -14,7 +14,6 @@ class CacheManager {
   Future<String?> getToken() async {
     final SharedPreferences prefs = await _prefs;
     String? token = prefs.getString(CacheManagerKey.token.toString());
-    print("TOKEN $token");
     return token;
   }
 

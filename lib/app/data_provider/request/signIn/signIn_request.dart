@@ -17,5 +17,3 @@ class SignInRequest extends BaseClient {
     body = {"email": email, "password": password};
   }
 }
-//"eve.holt@reqres.in"
-//"cityslicka"

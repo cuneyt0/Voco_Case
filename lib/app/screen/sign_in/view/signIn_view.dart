@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:voco_case/app/constant/string_constant.dart';
 import 'package:voco_case/app/screen/sign_in/controller/signIn_controller.dart';
 import 'package:voco_case/app/ui_component/textfield/vaco_textfield.dart';
-import 'package:voco_case/app/utilities/cache_manager/cache_manager.dart';
 import 'package:voco_case/app/utilities/extensions/size_extensions.dart';
 
 final signInController = ChangeNotifierProvider((ref) => SignInController());
@@ -15,22 +14,21 @@ class SignInView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final read = ref.read(signInController);
     final watch = ref.watch(signInController);
-    return Scaffold(
-        appBar: AppBar(),
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          CacheManager.instance.getToken();
-        }),
-        body: Form(
-          key: watch.formKey,
-          child: ListView.separated(
-            separatorBuilder: (context, index) => const SizedBox(height: 30),
-            padding: EdgeInsets.only(
-                top: context.screenHeight(.1), left: 10, right: 10, bottom: 20),
-            itemBuilder: (context, index) =>
-                _bodyList(context, read, watch)[index],
-            itemCount: _bodyList(context, read, watch).length,
-          ),
-        ));
+    return Scaffold(body: _body(watch, context, read));
+  }
+
+  Form _body(
+      SignInController watch, BuildContext context, SignInController read) {
+    return Form(
+      key: watch.formKey,
+      child: ListView.separated(
+        separatorBuilder: (context, index) => const SizedBox(height: 30),
+        padding: EdgeInsets.only(
+            top: context.screenHeight(.4), left: 10, right: 10, bottom: 20),
+        itemBuilder: (context, index) => _bodyList(context, read, watch)[index],
+        itemCount: _bodyList(context, read, watch).length,
+      ),
+    );
   }
 
   List<Widget> _bodyList(BuildContext context, SignInController read,
