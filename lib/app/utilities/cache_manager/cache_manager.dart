@@ -1,31 +1,26 @@
-import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:voco_case/app/data_provider/model/signIn/signIn.dart';
 
 class CacheManager {
   static CacheManager instance = CacheManager();
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  Future<bool> saveLoginResponse(SignIn data) async {
+  Future<bool> saveToken(String data) async {
     final SharedPreferences prefs = await _prefs;
-    await prefs.setString(
-        CacheManagerKey.token.toString(), jsonEncode(data.toJson()));
+    await prefs.setString(CacheManagerKey.token.toString(), data);
 
     return true;
   }
 
-  Future<String?> getToken({String? token}) async {
+  Future<String?> getToken() async {
     final SharedPreferences prefs = await _prefs;
     String? token = prefs.getString(CacheManagerKey.token.toString());
-
+    print("TOKEN $token");
     return token;
   }
 
   Future<bool> removeToken() async {
     final SharedPreferences prefs = await _prefs;
     prefs.remove(CacheManagerKey.token.toString());
-
     return true;
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:voco_case/app/constant/string_constant.dart';
 import 'package:voco_case/app/screen/sign_in/controller/signIn_controller.dart';
 import 'package:voco_case/app/ui_component/textfield/vaco_textfield.dart';
+import 'package:voco_case/app/utilities/cache_manager/cache_manager.dart';
 import 'package:voco_case/app/utilities/extensions/size_extensions.dart';
 
 final signInController = ChangeNotifierProvider((ref) => SignInController());
@@ -16,6 +17,9 @@ class SignInView extends ConsumerWidget {
     final watch = ref.watch(signInController);
     return Scaffold(
         appBar: AppBar(),
+        floatingActionButton: FloatingActionButton(onPressed: () {
+          CacheManager.instance.getToken();
+        }),
         body: Form(
           key: watch.formKey,
           child: ListView.separated(
@@ -31,11 +35,11 @@ class SignInView extends ConsumerWidget {
 
   List<Widget> _bodyList(BuildContext context, SignInController read,
           SignInController watch) =>
-      [_email(watch), _password(watch), _signInButton(read)];
+      [_email(watch), _password(watch), _signInButton(read, context)];
 
-  ElevatedButton _signInButton(SignInController read) {
+  ElevatedButton _signInButton(SignInController read, BuildContext context) {
     return ElevatedButton(
-        onPressed: () async => await read.signInButton(),
+        onPressed: () async => await read.signInButton(context),
         child: const Text(signInButtonName));
   }
 
