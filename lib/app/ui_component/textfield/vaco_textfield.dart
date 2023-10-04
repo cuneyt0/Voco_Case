@@ -5,7 +5,7 @@ class VacoTextField extends StatelessWidget {
   const VacoTextField({
     super.key,
     required this.controller,
-    this.prefixIconName,
+    this.prefixIcon,
     this.suffixIcon,
     this.validator,
     this.keyboardType,
@@ -27,7 +27,7 @@ class VacoTextField extends StatelessWidget {
   });
 
   final TextEditingController controller;
-  final String? prefixIconName;
+  final Widget? prefixIcon;
   final Widget? suffixIcon;
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
@@ -69,12 +69,7 @@ class VacoTextField extends StatelessWidget {
       decoration: InputDecoration(
         filled: enabled == true ? false : true,
         contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-        prefixIcon: prefixIconName != null
-            ? Padding(
-                padding: const EdgeInsets.only(left: 18.0),
-                child: Image.asset(prefixIconName!),
-              )
-            : null,
+        prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         enabled: enabled,
         hintText: hintText,

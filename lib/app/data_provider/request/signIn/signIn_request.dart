@@ -13,7 +13,9 @@ class SignInRequest extends BaseClient {
   @override
   Map<String, dynamic>? params;
 
-  SignInRequest() {
-    body = {"email": "eve.holt@reqres.in", "password": "cityslicka"};
+  SignInRequest({String? email, String? password}) {
+    body = {"email": email, "password": password};
   }
 }
+//"eve.holt@reqres.in"
+//"cityslicka"
