@@ -31,22 +31,20 @@ class SignInView extends ConsumerWidget {
 
   List<Widget> _bodyList(BuildContext context, SignInController read,
           SignInController watch) =>
-      [
-        _email(watch),
-        _password(watch),
-        ElevatedButton(
-            onPressed: () {
-              read.postSignIn();
-            },
-            child: const Text(signInButtonName))
-      ];
+      [_email(watch), _password(watch), _signInButton(read)];
+
+  ElevatedButton _signInButton(SignInController read) {
+    return ElevatedButton(
+        onPressed: () async => await read.signInButton(),
+        child: const Text(signInButtonName));
+  }
 
   VacoTextField _email(SignInController watch) {
     return VacoTextField(
       controller: watch.emailController,
       hintText: email,
       keyboardType: TextInputType.emailAddress,
-      validator: (value) => watch.validateEmail(value: value),
+      validator: (value) => watch.emailValidation(value: value),
       prefixIcon: const Icon(Icons.email),
     );
   }
@@ -58,11 +56,13 @@ class SignInView extends ConsumerWidget {
       obscureText: !watch.isShowPassword,
       keyboardType: TextInputType.visiblePassword,
       prefixIcon: const Icon(Icons.lock),
+      validator: (value) => watch.passwordValidation(value: value),
       suffixIcon: InkWell(
-          onTap: watch.showPassword,
-          child: Icon(
-            watch.isShowPassword ? Icons.visibility : Icons.visibility_off,
-          )),
+        onTap: watch.showPassword,
+        child: Icon(
+          watch.isShowPassword ? Icons.visibility : Icons.visibility_off,
+        ),
+      ),
     );
   }
 }

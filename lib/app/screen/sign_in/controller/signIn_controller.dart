@@ -8,12 +8,21 @@ import 'package:voco_case/app/utilities/toast_manager/toast_manager.dart';
 import 'package:voco_case/core/freezed/result_state.dart';
 
 class SignInController extends ChangeNotifier {
-  bool isShowPassword = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey();
+  bool isShowPassword = false;
   ResultState<SignIn, SwError> resultState = const Idle();
-  Future<void> postSignIn() async {
+
+  Future<void> signInButton() async {
+    if (formKey.currentState != null && formKey.currentState!.validate()) {
+      _postSignIn();
+    } else {
+      ToastManager.showError("Zorunlu alanları doldurunuz");
+    }
+  }
+
+  Future<void> _postSignIn() async {
     resultState = const Pending();
 
     var result = await NetworkExecuter.shared.execute<SignIn, SignIn>(
@@ -35,12 +44,20 @@ class SignInController extends ChangeNotifier {
     notifyListeners();
   }
 
-  String? validateEmail({String? value}) {
+  String? emailValidation({String? value}) {
     const pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     final regex = RegExp(pattern);
     if (!regex.hasMatch(value!)) {
       return "Geçerli bir e mail giriniz";
+    } else {
+      return null;
+    }
+  }
+
+  String? passwordValidation({String? value}) {
+    if (value?.isEmpty == true) {
+      return 'Bu Alan Boş Geçilemez';
     } else {
       return null;
     }
