@@ -2,7 +2,7 @@ import 'package:voco_case/app/data_provider/data_core/interfaces/request_protoco
 
 abstract class BaseClient implements RequestProtocol {
   @override
-  String baseURL = "https://reqres.in";
+  String baseURL = "https://reqres.in/api/";
 
   @override
   Map<String, dynamic>? header;

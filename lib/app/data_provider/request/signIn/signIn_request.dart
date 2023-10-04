@@ -2,7 +2,7 @@ import 'package:voco_case/app/data_provider/data_core/base_client.dart';
 
 class SignInRequest extends BaseClient {
   @override
-  String path = "/api/login";
+  String path = "login";
 
   @override
   String method = "POST";

@@ -2,7 +2,7 @@ import 'package:voco_case/app/data_provider/data_core/base_client.dart';
 
 class UserRequest extends BaseClient {
   @override
-  String path = "/api/users";
+  String path = "users";
 
   @override
   String method = "GET";
